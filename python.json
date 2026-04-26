@@ -1,0 +1,30 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>screensteward/renovate-config"],
+  "packageRules": [
+    {
+      "description": "Group Python test/lint tooling",
+      "matchManagers": ["pep621", "poetry", "pip_requirements"],
+      "matchPackageNames": [
+        "pytest",
+        "pytest-asyncio",
+        "pytest-cov",
+        "ruff",
+        "black",
+        "mypy",
+        "pre-commit"
+      ],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "python-dev-tooling",
+      "automerge": true
+    },
+    {
+      "description": "Group FastAPI ecosystem updates (when backend ships)",
+      "matchManagers": ["pep621", "poetry", "pip_requirements"],
+      "matchPackageNames": ["fastapi", "starlette", "uvicorn", "pydantic", "pydantic-core"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "fastapi-ecosystem",
+      "automerge": true
+    }
+  ]
+}

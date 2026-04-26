@@ -1,0 +1,38 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>screensteward/renovate-config"],
+  "packageRules": [
+    {
+      "description": "Group Cargo dev dependencies (testing, fixtures, fuzzing)",
+      "matchManagers": ["cargo"],
+      "matchDepTypes": ["dev-dependencies"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "cargo-dev-dependencies",
+      "automerge": true
+    },
+    {
+      "description": "Group serde ecosystem updates (serde, serde_json, serde_derive together)",
+      "matchManagers": ["cargo"],
+      "matchPackageNames": ["serde", "serde_json", "serde_derive", "serde_yaml", "serde_with"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "serde-ecosystem",
+      "automerge": true
+    },
+    {
+      "description": "Group tokio ecosystem updates",
+      "matchManagers": ["cargo"],
+      "matchPackageNames": ["tokio", "tokio-stream", "tokio-util", "tokio-test"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "tokio-ecosystem",
+      "automerge": true
+    },
+    {
+      "description": "Group tracing ecosystem updates",
+      "matchManagers": ["cargo"],
+      "matchPackageNames": ["tracing", "tracing-subscriber", "tracing-core", "tracing-log"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "tracing-ecosystem",
+      "automerge": true
+    }
+  ]
+}

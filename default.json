@@ -1,0 +1,103 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":semanticCommitTypeAll(chore)",
+    ":separateMajorReleases",
+    ":prImmediately",
+    ":automergeMinor",
+    ":automergePatch"
+  ],
+  "timezone": "UTC",
+  "schedule": ["before 5am on tuesday"],
+  "baseBranches": ["develop"],
+  "labels": ["dependencies"],
+  "prConcurrentLimit": 10,
+  "prHourlyLimit": 0,
+  "rebaseWhen": "behind-base-branch",
+  "stabilityDays": 3,
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true,
+    "schedule": ["before 5am on tuesday"]
+  },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "schedule": ["at any time"],
+    "labels": ["dependencies", "security"]
+  },
+  "major": {
+    "automerge": false,
+    "labels": ["dependencies", "manual-review"]
+  },
+  "packageRules": [
+    {
+      "description": "Group dev dependencies (testing, formatting, linting tools) per ecosystem",
+      "matchDepTypes": ["devDependencies", "dev-dependencies"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "dev-dependencies"
+    },
+    {
+      "description": "Group all GitHub Actions bumps",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["digest", "patch", "minor"],
+      "groupName": "github-actions",
+      "automerge": true
+    },
+    {
+      "description": "GitHub Actions major bumps stay manual",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "labels": ["dependencies", "manual-review"]
+    },
+    {
+      "description": "Docker base image patch and minor bumps automerge",
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["digest", "patch", "minor"],
+      "automerge": true
+    },
+    {
+      "description": "Docker base image major bumps stay manual (OS upgrades)",
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "labels": ["dependencies", "manual-review", "os-upgrade"]
+    },
+    {
+      "description": "Flutter SDK pinned via fvm — manual review only",
+      "matchFileNames": [".fvmrc"],
+      "automerge": false,
+      "labels": ["dependencies", "manual-review", "toolchain"]
+    },
+    {
+      "description": "Rust toolchain — manual review (cf. ADR-0004 precedent)",
+      "matchFileNames": ["rust-toolchain.toml", "rust-toolchain"],
+      "automerge": false,
+      "labels": ["dependencies", "manual-review", "toolchain"]
+    },
+    {
+      "description": "Cargo workspace MSRV — manual review (triggers an ADR)",
+      "matchManagers": ["cargo"],
+      "matchPackageNames": ["rust"],
+      "automerge": false,
+      "labels": ["dependencies", "manual-review", "toolchain", "needs-adr"]
+    },
+    {
+      "description": "Python version pin — manual review",
+      "matchManagers": ["pep621", "poetry"],
+      "matchDepNames": ["python"],
+      "automerge": false,
+      "labels": ["dependencies", "manual-review", "toolchain"]
+    },
+    {
+      "description": "Dart SDK constraint — manual review",
+      "matchManagers": ["pub"],
+      "matchDepNames": ["dart"],
+      "automerge": false,
+      "labels": ["dependencies", "manual-review", "toolchain"]
+    }
+  ]
+}

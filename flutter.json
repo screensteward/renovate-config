@@ -1,0 +1,36 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>screensteward/renovate-config:dart"],
+  "postUpgradeTasks": {
+    "commands": [
+      "if [ -f pubspec.yaml ] && grep -q 'flutter_localizations' pubspec.yaml; then fvm flutter gen-l10n; fi"
+    ],
+    "fileFilters": ["lib/l10n/**"],
+    "executionMode": "update"
+  },
+  "packageRules": [
+    {
+      "description": "Group Flutter localization deps and trigger gen-l10n",
+      "matchManagers": ["pub"],
+      "matchPackageNames": ["intl", "flutter_localizations", "intl_translation", "intl_utils"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "flutter-l10n",
+      "automerge": true
+    },
+    {
+      "description": "Group Riverpod ecosystem",
+      "matchManagers": ["pub"],
+      "matchPackageNames": ["flutter_riverpod", "riverpod", "riverpod_annotation", "riverpod_generator"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "riverpod-ecosystem",
+      "automerge": true
+    },
+    {
+      "description": "Group go_router updates",
+      "matchManagers": ["pub"],
+      "matchPackageNames": ["go_router", "go_router_builder"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "go-router"
+    }
+  ]
+}
