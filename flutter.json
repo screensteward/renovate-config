@@ -30,7 +30,8 @@
       "matchManagers": ["pub"],
       "matchPackageNames": ["go_router", "go_router_builder"],
       "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "go-router"
+      "groupName": "go-router",
+      "automerge": true
     }
   ]
 }
